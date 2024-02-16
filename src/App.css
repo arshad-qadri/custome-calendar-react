@@ -1,0 +1,16 @@
+.calendar-dates{
+  display: grid;
+  /* grid-template-columns: repeat(5, 100px); */
+  grid-template-rows: repeat(7, 60px);
+  color: #000;
+  font-weight: bold;
+  border: 1px solid black;
+  width: max-content;
+}
+.date{
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  place-items: center;
+  height: 50px;
+}
