@@ -17,12 +17,12 @@ const Calendar = () => {
     const endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     const startDay = startDate.getDay();
     const end_date = endDate.getDate();
-    const month = date.getMonth() ;
+    const month = date.getMonth();
     const year = date.getFullYear();
     setMonth(month);
     setYear(year);
     const today = date.getDate();
-    const totalDates = month+1 !== 2 && startDay >= 5 ? 42 : 35;
+    let totalDates = month !== 1 && startDay >= 5 ? 42 : 35;
     let week = 0;
     let temp = [[]];
     for (let i = 1; i <= totalDates; i++) {
@@ -35,7 +35,11 @@ const Calendar = () => {
       } else {
         temp[week].push({ day: "", active: false, event: [] });
       }
-      if (temp[week].length === 7 && temp[week][temp[week].length - 1].day) {
+      if (
+        temp[week].length === 7 &&
+        temp[week][temp[week].length - 1].day &&
+        temp[week][temp[week].length - 1].day <=30
+      ) {
         week++;
         temp[week] = [];
       }
@@ -69,7 +73,7 @@ const Calendar = () => {
       <Header month={month} year={year} setChangedDate={setChangedDate} />
       {calendar?.length > 0 ? (
         <div className="grid md:grid-cols-[150px,auto] grid-cols-[auto,auto] h-full">
-          {/* {console.log("calendar",calendar)} */}
+          {console.log("calendar", calendar)}
           <WeekDays />
           <Dates calendar={calendar} />
         </div>
