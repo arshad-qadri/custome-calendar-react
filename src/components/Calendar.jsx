@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import Dates from "./Dates";
 import WeekDays from "./WeekDays";
 import Header from "./Header";
+import Model from "./model/Model";
 
 const Calendar = () => {
   const [calendar, setCalendar] = useState();
   const [month, setMonth] = useState();
   const [year, setYear] = useState();
   const [changedDate, setChangedDate] = useState();
+  const [isOpenModel, setIsOpenModel] = useState(false);
+  const [indexNumbers, setIndexNumbers] = useState({});
 
   useEffect(() => {
     // const date = new Date("06-01-2024");
@@ -22,7 +25,8 @@ const Calendar = () => {
     setMonth(month);
     setYear(year);
     const today = date.getDate();
-    let totalDates = month !== 1 && startDay >= 5 ? 42 : 35;
+    let totalDates =
+      month === 1 && startDay === 0 ? 28 : end_date + startDay > 35 ? 42 : 35;
     let week = 0;
     let temp = [[]];
     for (let i = 1; i <= totalDates; i++) {
@@ -38,7 +42,7 @@ const Calendar = () => {
       if (
         temp[week].length === 7 &&
         temp[week][temp[week].length - 1].day &&
-        temp[week][temp[week].length - 1].day <=30
+        temp[week][temp[week].length - 1].day !== end_date
       ) {
         week++;
         temp[week] = [];
@@ -69,15 +73,30 @@ const Calendar = () => {
   }, [changedDate]);
 
   return (
-    <div className="md:max-w-5xl w-full m-auto p-5 min-h-screen ">
-      <Header month={month} year={year} setChangedDate={setChangedDate} />
-      {calendar?.length > 0 ? (
-        <div className="grid md:grid-cols-[150px,auto] grid-cols-[auto,auto] h-full">
-          {console.log("calendar", calendar)}
-          <WeekDays />
-          <Dates calendar={calendar} />
+    <div className="w-full m-auto p-5 min-h-screen relative  ">
+      {isOpenModel && (
+        <div className="absolute w-full h-full bg-white top-0 left-0  flex justify-center items-center ">
+          <Model
+            calendar={calendar}
+            setIsOpenModel={setIsOpenModel}
+            indexNumbers={indexNumbers}
+            setIndexNumbers={setIndexNumbers}
+          />
         </div>
-      ) : null}
+      )}
+      <div className="md:max-w-5xl mx-auto">
+        <Header month={month} year={year} setChangedDate={setChangedDate} />
+        {calendar?.length > 0 ? (
+          <div className="grid md:grid-cols-[150px,auto] grid-cols-[auto,auto] h-full border-r">
+            <WeekDays />
+            <Dates
+              calendar={calendar}
+              setIsOpenModel={setIsOpenModel}
+              setIndexNumbers={setIndexNumbers}
+            />
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 };
