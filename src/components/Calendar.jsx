@@ -84,7 +84,7 @@ const Calendar = () => {
           />
         </div>
       )}
-      <div className="md:max-w-5xl mx-auto">
+      <div className="md:max-w-5xl mx-auto shadow-lg p-4 rounded-md">
         <Header month={month} year={year} setChangedDate={setChangedDate} />
         {calendar?.length > 0 ? (
           <div className="grid md:grid-cols-[150px,auto] grid-cols-[auto,auto] h-full border-r">
